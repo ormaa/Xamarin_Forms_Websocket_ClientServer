@@ -113,7 +113,14 @@ namespace Websocket_Client_Server
 
         private async void DisconnectAsync()
         {
-            websocketClient.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+            try
+            {
+                websocketClient.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+            }
+            catch (Exception ex)
+            {
+                logDelegate("DisConnnection from websocket server failed : " + ex.Message.ToString());
+            }
         }
 
         private async void StartListen()

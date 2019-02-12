@@ -46,7 +46,10 @@ namespace Websocket_Client_Server
         // disconnect client from websocket server
         void DisconnectClientClick(object sender, System.EventArgs e)
         {
-            client.stop();
+            if (client != null)
+            {
+                client.stop();
+            }
         }
 
 
