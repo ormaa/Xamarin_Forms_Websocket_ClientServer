@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:Websocket_Client_Server" x:Class="Websocket_Client_Server.MainPage">
     <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
-        
+
+
+
+        <Label Text="WebSocket client Server Sample" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+                
+       
+        <Label Text="Server IP :" HorizontalOptions="Start" FontSize="12" />
         <Entry x:Name="EntryServerIP" Text="192.168.1.64"/>
         
         <Button Text="Start Server" Clicked="StartServerClick"/>

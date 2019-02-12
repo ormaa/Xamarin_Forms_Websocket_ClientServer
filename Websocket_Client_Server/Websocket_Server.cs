@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,17 +38,25 @@ namespace Websocket_Client_Server
         {
             //var endP = new IPEndPoint(IPAddress.Parse(ip), port);
 
-            cancellation = new CancellationTokenSource();
+            try
+            {
+                cancellation = new CancellationTokenSource();
 
-            var endpoint = new IPEndPoint(IPAddress.Parse(ip), port);
-            server = new WebSocketListener(endpoint, new WebSocketListenerOptions() { SubProtocols = new[] { "text" } });
-            server.Standards.RegisterStandard(new WebSocketFactoryRfc6455());
-            server.StartAsync();
+                var endpoint = new IPEndPoint(IPAddress.Parse(ip), port);
+                // var endpoint = new IPEndPoint(IPAddress.Any, port);
+                server = new WebSocketListener(endpoint, new WebSocketListenerOptions() { SubProtocols = new[] { "text" } });
+                server.Standards.RegisterStandard(new WebSocketFactoryRfc6455());
+                server.StartAsync();
 
-            logDelegate("Server started at " + endpoint.ToString());
+                logDelegate("Server started at " + endpoint.ToString());
 
-            // start listening for client connection
-            var task = Task.Run(() => AcceptWebSocketClients(server, cancellation.Token));
+                // start listening for client connection
+                var task = Task.Run(() => AcceptWebSocketClients(server, cancellation.Token));
+            }
+            catch (Exception ex)
+            {
+                logDelegate("Error Starting socket server: " + ex.Message);
+            }
         }
 
         public void stop()
@@ -55,6 +64,21 @@ namespace Websocket_Client_Server
             this.stopServer = true;
             server.Stop();
             logDelegate("Server stopped.");
+        }
+
+
+
+
+        public string getCurrentIP()
+        {
+            var host = Dns.GetHostName();
+            IPHostEntry hostEntry = Dns.GetHostEntry(host);
+            if (hostEntry.AddressList.Length > 0)
+            {
+                //logDelegate("Current IP : " + hostEntry.AddressList[0].ToString());
+                return hostEntry.AddressList[0].ToString();
+            }
+            return "";
         }
 
 

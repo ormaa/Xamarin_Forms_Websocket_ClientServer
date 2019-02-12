@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -99,6 +103,41 @@ namespace Websocket_Client_Server
 
         private async void ConnectAsync()
         {
+            // dummy tests
+            //int i = 0;
+            ////for (int index = 0; index < 255; index++)
+            ////{
+            //string str = "ws://192.168.1.64"; // + index.ToString();
+            //var uri = new Uri(str + ":9500");
+            //try
+            //{
+            //    Debug.WriteLine("IP : " + uri.ToString());
+            //    await websocketClient.ConnectAsync(uri, cancellationToken);
+
+            //    Debug.WriteLine(websocketClient.State);
+            //    // i = index;
+            //    // break;
+            //}
+            //catch
+            //{
+
+            //}
+            ////}
+
+            //Debug.WriteLine("Server found : " + "192.168.1." + i.ToString());
+
+            //Ping p = new Ping();
+            //for (int index = 0; index < 255; index++)
+            //{
+            //    PingReply reply = p.Send("192.168.1." + index.ToString(), 9500);
+            //    if (reply.Status == IPStatus.Success)
+            //    {
+            //        Debug.WriteLine("Server found : " + "192.168.1." + index.ToString());
+            //    }
+
+            //}
+
+
             try
             {
                 await websocketClient.ConnectAsync(websocketServerUIR, cancellationToken);
@@ -115,7 +154,7 @@ namespace Websocket_Client_Server
         {
             try
             {
-                websocketClient.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                await websocketClient.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
             }
             catch (Exception ex)
             {

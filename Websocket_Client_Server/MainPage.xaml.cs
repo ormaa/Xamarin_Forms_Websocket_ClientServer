@@ -15,6 +15,10 @@ namespace Websocket_Client_Server
         public MainPage()
         {
             InitializeComponent();
+
+            // fill the current IP as server IP, by default
+            string ip = new Websocket_Server().getCurrentIP();
+            EntryServerIP.Text = ip;
         }
 
 
